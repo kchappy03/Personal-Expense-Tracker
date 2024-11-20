@@ -175,7 +175,7 @@
         const itemData = {};
         entries.forEach(entry => {
             const cost = parseFloat(entry.cost);
-            const name
+            const name = name.entry;
             // Accumulate costs by name
             if (itemData[name]) {
                 itemData[name] += cost;
@@ -245,35 +245,35 @@
             document.getElementById('averageDailySpendingResult').innerText = `Average Daily Spending for ${month}: $${averageDailySpending}`;
         }
 
-        // Calculate Spending Trends by Description
+        // Calculate Spending Trends by Name
         function calculateSpendingTrends() {
-            const descriptionData = {};
+            const nameData = {};
 
             entries.forEach(entry => {
                 const date = new Date(entry.date);
                 const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
                 const cost = parseFloat(entry.cost);
-                const description = entry.description;
+                const name = entry.name;
 
-                if (!descriptionData[description]) {
-                    descriptionData[description] = {};
+                if (!nameData[name]) {
+                    nameData[name] = {};
                 }
 
-                if (!descriptionData[description][month]) {
-                    descriptionData[description][month] = 0;
+                if (!nameData[name][month]) {
+                    nameData[name][month] = 0;
                 }
-                descriptionData[description][month] += cost;
+                nameData[name][month] += cost;
             });
 
             const trends = [];
-            for (const [description, monthlyData] of Object.entries(descriptionData)) {
+            for (const [name, monthlyData] of Object.entries(nameData)) {
                 const months = Object.keys(monthlyData).sort();
                 let previousMonthCost = null;
 
                 months.forEach(month => {
                     const currentMonthCost = monthlyData[month];
                     if (previousMonthCost !== null && currentMonthCost > previousMonthCost) {
-                        trends.push(`Increase in spending on "${description}" from ${previousMonthCost} to ${currentMonthCost} in ${month}`);
+                        trends.push(`Increase in spending on "${name}" from ${previousMonthCost} to ${currentMonthCost} in ${month}`);
                     }
                     previousMonthCost = currentMonthCost;
                 });
