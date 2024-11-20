@@ -7,33 +7,30 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
+            text-align: center;
+            padding: 50px;
+            background-color: #121212; /* Black background */
+            color: white; /* White text for readability */
         }
 
         .container {
-            text-align: center;
-            background: #fff;
-            padding: 20px 40px;
+            background: #1e1e1e; /* Dark background for container */
+            padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
         h1, h2 {
-            margin-bottom: 20px;
+            color: #4CAF50; /* Green for headers */
         }
 
         p {
-            margin: 10px 0;
+            color: #ddd; /* Light gray text */
+            font-size: 18px;
         }
 
         .highlight {
-            color: #d9534f;
+            color: #d9534f; /* Red for highlights */
             font-weight: bold;
         }
 
@@ -53,50 +50,53 @@
 
         <div>
             <h2>Entry with the Highest Cost</h2>
-            <p id="highest-cost-entry"></p>
+            <p id="highest-cost-entry">No data available.</p>
         </div>
 
         <div>
             <h2>Highest Total Spent on a Single Name</h2>
-            <p id="highest-total-name"></p>
+            <p id="highest-total-name">No data available.</p>
         </div>
     </div>
 
     <script>
-        // Set the username (can be fetched dynamically or set statically)
-        const username = "John Doe";
+        // Retrieve username from sessionStorage (set during login)
+        const username = sessionStorage.getItem('username') || 'Guest';
 
         // Display the username
-        document.getElementById("username").textContent = username;
+        document.getElementById('username').textContent = username;
 
-        // Sample data entries
+        // Retrieve budget entries from localStorage
         const entries = JSON.parse(localStorage.getItem('budgetEntries')) || [];
 
-        // Find the entry with the highest cost
-        const highestCostEntry = entries.reduce((max, entry) => (entry.cost > max.cost ? entry : max), entries[0]);
+        // Ensure data exists before performing calculations
+        if (entries.length > 0) {
+            // Find the entry with the highest cost
+            const highestCostEntry = entries.reduce((max, entry) => 
+                (entry.cost > max.cost ? entry : max), entries[0]);
 
-        // Calculate the highest total spent for a single name
-        const nameTotals = entries.reduce((acc, entry) => {
-            acc[entry.name] = (acc[entry.name] || 0) + entry.cost;
-            return acc;
-        }, {});
+            // Calculate the highest total spent for a single name
+            const nameTotals = entries.reduce((acc, entry) => {
+                acc[entry.name] = (acc[entry.name] || 0) + entry.cost;
+                return acc;
+            }, {});
 
-        const highestTotalName = Object.keys(nameTotals).reduce((max, name) =>
-            nameTotals[name] > nameTotals[max] ? name : max
-        );
+            const highestTotalName = Object.keys(nameTotals).reduce((max, name) =>
+                nameTotals[name] > nameTotals[max] ? name : max
+            );
 
-        // Display results
-        document.getElementById("highest-cost-entry").innerHTML = `
-          <span class="highlight">${highestCostEntry.name}</span> -
-          $${highestCostEntry.cost.toFixed(2)} on
-          ${highestCostEntry.date}
-        `;
+            // Display the results
+            document.getElementById('highest-cost-entry').innerHTML = `
+                <span class="highlight">${highestCostEntry.name}</span> - 
+                $${highestCostEntry.cost.toFixed(2)} on 
+                ${highestCostEntry.date}
+            `;
 
-        document.getElementById("highest-total-name").innerHTML = `
-          <span class="highlight">${highestTotalName}</span> with a total of
-          $${nameTotals[highestTotalName].toFixed(2)}
-        `;
+            document.getElementById('highest-total-name').innerHTML = `
+                <span class="highlight">${highestTotalName}</span> with a total of 
+                $${nameTotals[highestTotalName].toFixed(2)}
+            `;
+        }
     </script>
-
 </body>
 </html>
