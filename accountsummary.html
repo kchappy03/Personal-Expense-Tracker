@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            text-align: center;
+            background: #fff;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .highlight {
+            color: #d9534f;
+            font-weight: bold;
+        }
+
+        .username-section {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="username-section">
+            <h2>Welcome, <span id="username" class="highlight"></span>!</h2>
+        </div>
+
+        <h1>User Account Summary</h1>
+
+        <div>
+            <h2>Entry with the Highest Cost</h2>
+            <p id="highest-cost-entry"></p>
+        </div>
+
+        <div>
+            <h2>Highest Total Spent on a Single Name</h2>
+            <p id="highest-total-name"></p>
+        </div>
+    </div>
+
+    <script>
+        // Set the username (can be fetched dynamically or set statically)
+        const username = "John Doe";
+
+        // Display the username
+        document.getElementById("username").textContent = username;
+
+        // Sample data entries
+        const entries = JSON.parse(localStorage.getItem('budgetEntries')) || [];
+
+        // Find the entry with the highest cost
+        const highestCostEntry = entries.reduce((max, entry) => (entry.cost > max.cost ? entry : max), entries[0]);
+
+        // Calculate the highest total spent for a single name
+        const nameTotals = entries.reduce((acc, entry) => {
+            acc[entry.name] = (acc[entry.name] || 0) + entry.cost;
+            return acc;
+        }, {});
+
+        const highestTotalName = Object.keys(nameTotals).reduce((max, name) =>
+            nameTotals[name] > nameTotals[max] ? name : max
+        );
+
+        // Display results
+        document.getElementById("highest-cost-entry").innerHTML = `
+          <span class="highlight">${highestCostEntry.name}</span> -
+          $${highestCostEntry.cost.toFixed(2)} on
+          ${highestCostEntry.date}
+        `;
+
+        document.getElementById("highest-total-name").innerHTML = `
+          <span class="highlight">${highestTotalName}</span> with a total of
+          $${nameTotals[highestTotalName].toFixed(2)}
+        `;
+    </script>
+
+</body>
+</html>
