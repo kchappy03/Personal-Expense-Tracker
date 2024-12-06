@@ -1,4 +1,4 @@
-**Assignment:  Our final project was to make a expense tracking application that allows users to better budget their expenses and categorize them as needed. **
+**Assignment:  Our final project was to make a expense tracking application that allows users to better budget their expenses and categorize them as needed.
 Authors: Kirin Chaplin, Tyler Furches, Ryan Craig, Chad Dailey 
 Class: CSCI 420, Software Development 
 Professor: Dr. Zareen 
@@ -7,7 +7,7 @@ In the files attached above is all the code that someone would need to run our a
 I will go through this summary of installation in such a way that someone with no experience would be able to figure it out.  Additionally, we encourage any recommendations and
 suggestions.  If you are seeing this and are not attached to The Citadels Cyber and Computer Science's department please reach out and let us know. 
 
-**Process of Installation: **
+**Process of Installation:
 
 - Step 1: Download all files inside of this github repository.
 - Step 2: Take all downloaded files and move them into one shared location.  It does not matter where this location is, whether it's in your downloads folder or in a folder
